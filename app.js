@@ -1,11 +1,20 @@
 const express = require("express");
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello from Node.js on ECS Fargate!");
+// Health check route for ECS
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
 });
 
-app.listen(3000, "0.0.0.0", () => {
-  console.log("Server running on port 3000");
+// Root route
+app.get("/", (req, res) => {
+  res.send("Hello from Node.js running on ECS (port 3000)!");
 });
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
+});
+
 
